@@ -1,5 +1,4 @@
-require "rake_routes_normalizer/version"
+require 'thor'
 
-module RakeRoutesNormalizer
-  # Your code goes here...
-end
+require "rake_routes_normalizer/version"
+require "rake_routes_normalizer/app"

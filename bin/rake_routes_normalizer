@@ -1,3 +1,5 @@
 #!/usr/bin/env ruby
 
-puts STDIN.read.upcase
+require 'rake_routes_normalizer'
+
+RakeRoutesNormalizer::App.start
