@@ -8,8 +8,11 @@ Gem::Specification.new do |s|
   s.authors     = ["George Mendoza"]
   s.email       = ["gsmendoza@gmail.com"]
   s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = "Normalize the printout of rake routes so that it's easier to diff"
+  s.description = %q{
+    rake_routes_normalizer is a utility for migrating routes from Rails 2 to 3. It can
+    normalize the printout of rake routes so that it's easier to diff Rails 2 to 3 routes.
+  }
 
   s.rubyforge_project = "rake_routes_normalizer"
 
