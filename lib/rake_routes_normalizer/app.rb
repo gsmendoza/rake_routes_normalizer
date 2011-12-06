@@ -1,11 +1,8 @@
 module RakeRoutesNormalizer
   class App < Thor
-    default_task :normalize
-
-    desc "normalize STDIN", "Print the normalized version of STDIN"
-    def normalize
-      puts "STDIN.read is #{STDIN.read}"
-      # puts RouteSet.parse(STDIN.read).normalize.to_s
+    desc "normalize text", "Print the normalized version of text"
+    def normalize(text)
+      puts RouteSet.parse(text).inspect #.normalize.to_s
     end
   end
 end

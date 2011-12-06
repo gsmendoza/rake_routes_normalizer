@@ -2,4 +2,10 @@
 
 require 'rake_routes_normalizer'
 
-RakeRoutesNormalizer::App.start
+if $stdin.tty?
+  # e.g. rake_routes_normalizer
+  RakeRoutesNormalizer::App.start
+else
+  # e.g. rake routes | rake_routes_normalizer
+  RakeRoutesNormalizer::App.new.normalize($stdin.read)
+end

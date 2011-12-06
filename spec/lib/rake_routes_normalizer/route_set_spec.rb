@@ -1,9 +1,12 @@
 require 'spec_helper'
 
-describe "RouteSet" do
+describe RouteSet do
   describe "parse(text)" do
-    it "should convert the text to a route set" do
-      false.must_equal true
+    it "can convert one line of text to a route set" do
+      text = %q{root  /(.:format) {:action=>"default", :controller=>"pages"}}
+
+      route_set = RouteSet.parse(text)
+      route_set.routes.size.must_equal 1
     end
   end
 end
