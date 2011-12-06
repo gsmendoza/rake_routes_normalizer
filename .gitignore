@@ -1,4 +1,5 @@
 *.gem
 .bundle
+.geanyprj
 Gemfile.lock
 pkg/*
