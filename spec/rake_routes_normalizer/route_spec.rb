@@ -72,6 +72,16 @@ describe Route do
       route = Route.new(:params => {:controller=>"users", :action=>"edit_password", :protocol=>nil})
       route.normalize.params.inspect.must_equal %q|{"action"=>"edit_password", "controller"=>"users", "protocol"=>nil}|
     end
+
+    it "should append (.:format) to the route if it is not specified" do
+      route = Route.new(:url_pattern => "/jobs(/:job)")
+      route.normalize.url_pattern.must_equal "/jobs(/:job)(.:format)"
+    end
+
+    it "should not append (.:format) to the route if it is specified" do
+      route = Route.new(:url_pattern => "/account/edit_password(.:format)")
+      route.normalize.url_pattern.must_equal "/account/edit_password(.:format)"
+    end
   end
 
   describe "<=>(other)" do

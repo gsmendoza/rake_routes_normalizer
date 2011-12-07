@@ -30,6 +30,7 @@ module RakeRoutesNormalizer
         result.http_verb = 'GET' if result.http_verb.to_s =~ /^\s*$/
         result.name = options[:previous_route].name if result.name =~ /^\s*$/
         result.params = Dictionary[KeyHash[params || {}]].order_by_key
+        result.url_pattern = "#{result.url_pattern}(.:format)" unless result.url_pattern =~ /\(\.:format\)$/
       end
     end
 
