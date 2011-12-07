@@ -28,13 +28,19 @@ module RakeRoutesNormalizer
     def normalize(options = {})
       clone.tap do |result|
         result.http_verb = 'GET' if result.http_verb.to_s =~ /^\s*$/
-        result.name = options[:previous_route].name if result.name =~ /^\s*$/
+        result.name = options[:previous_route].name if result.name =~ /^\s*$/ && options[:previous_route]
         result.params = Dictionary[KeyHash[params || {}]].order_by_key
         result.url_pattern = "#{result.url_pattern}(.:format)" unless result.url_pattern =~ /\(\.:format\)/
       end
+
+    rescue Exception => e
+      raise CannotNormalizeRoute.new(:self => self, :options => options)
     end
 
     class CannotParseLine < ExceptionWithDefaultMessage
+    end
+
+    class CannotNormalizeRoute < ExceptionWithDefaultMessage
     end
   end
 end

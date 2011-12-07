@@ -68,6 +68,11 @@ describe Route do
       route.normalize(:previous_route => previous_route).name.must_equal 'account_path'
     end
 
+    it "should set the name to '' if the name is blank and the route does not have previous route" do
+      route = Route.new(:name => '')
+      route.normalize(:previous_route => nil).name.must_equal ''
+    end
+
     it "should sort the route's params by key" do
       route = Route.new(:params => {:controller=>"users", :action=>"edit_password", :protocol=>nil})
       route.normalize.params.inspect.must_equal %q|{"action"=>"edit_password", "controller"=>"users", "protocol"=>nil}|
