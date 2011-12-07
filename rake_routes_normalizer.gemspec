@@ -26,5 +26,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "minitest"
   s.add_development_dependency "ruby-debug"
 
+  s.add_runtime_dependency "hashery"
   s.add_runtime_dependency "thor"
+  s.add_runtime_dependency "valuable"
 end

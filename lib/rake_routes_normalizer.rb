@@ -1,4 +1,7 @@
+require 'hashery/dictionary'
+require 'hashery/key_hash'
 require 'thor'
+require 'valuable'
 
 require "rake_routes_normalizer/version"
 

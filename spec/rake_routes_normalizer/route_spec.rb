@@ -42,4 +42,55 @@ describe Route do
       route.params.must_equal({:controller=>"users", :action=>"change_password"})
     end
   end
+
+  describe "normalize(options)" do
+    it "should return a copy of the route" do
+      route = Route.new.tap do |route|
+        route.name = 'root'
+        route.http_verb = 'GET'
+        route.url_pattern = '/(.:format)'
+        route.params = {:action=>"default", :controller=>"pages"}
+      end
+
+      copy = route.normalize
+      copy.must_be_instance_of Route
+      copy.wont_be_same_as route
+    end
+
+    it "should set the http_verb to GET if it is blank" do
+      route = Route.new(:http_verb => '')
+      route.normalize.http_verb.must_equal 'GET'
+    end
+
+    it "should set the name to the options[:previous_route]'s name if it is blank" do
+      previous_route = Route.new(:name => 'account_path')
+      route = Route.new(:name => '')
+      route.normalize(:previous_route => previous_route).name.must_equal 'account_path'
+    end
+
+    it "should sort the route's params by key" do
+      route = Route.new(:params => {:controller=>"users", :action=>"edit_password", :protocol=>nil})
+      route.normalize.params.inspect.must_equal %q|{"action"=>"edit_password", "controller"=>"users", "protocol"=>nil}|
+    end
+  end
+
+  describe "<=>(other)" do
+    it "should sort the route and other's url_pattern" do
+      routes = [
+        Route.new(:url_pattern => '/account(.:format)',  :http_verb => 'GET'),
+        Route.new(:url_pattern => '/airports(.:format)', :http_verb => 'GET')
+      ]
+
+      (routes[0] <=> routes[1]).must_be :<, 0
+    end
+
+    it "should compare the route and other's url_pattern by http_verb, if the url patterns are the same" do
+      routes = [
+        Route.new(:url_pattern => '/account(.:format)', :http_verb => 'GET'),
+        Route.new(:url_pattern => '/account(.:format)', :http_verb => 'PUT')
+      ]
+
+      (routes[0] <=> routes[1]).must_be :<, 0
+    end
+  end
 end
