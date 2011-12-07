@@ -4,7 +4,7 @@ module RakeRoutesNormalizer
 
     def self.parse(text)
       RouteSet.new.tap do |result|
-        result.routes = text.split("\n").map{|line| Route.parse(line)}
+        result.routes = text.split("\n").reject{|line| line =~ /^\s*$/}.map{|line| Route.parse(line)}
       end
     end
 

@@ -15,6 +15,8 @@ module RakeRoutesNormalizer
         result.url_pattern = tokens[3]
         result.params = eval(tokens[4])
       end
+    rescue NoMethodError => e
+      raise CannotParseLine.new(:line => line)
     end
 
     def <=>(other)
@@ -29,6 +31,9 @@ module RakeRoutesNormalizer
         result.name = options[:previous_route].name if result.name =~ /^\s*$/
         result.params = Dictionary[KeyHash[params || {}]].order_by_key
       end
+    end
+
+    class CannotParseLine < ExceptionWithDefaultMessage
     end
   end
 end
