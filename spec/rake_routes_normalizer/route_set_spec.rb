@@ -57,13 +57,28 @@ describe RouteSet do
     it "should normalize a route based the route's previous route" do
       route_set = RouteSet.new(
         :routes => [
-          Route.new(:name => 'account'),
-          Route.new(:name => '')
+          Route.new(:name => 'account', :url_pattern => '/account(.:format)'),
+          Route.new(:name => '', :url_pattern => '/account(.:format)')
         ]
       )
       copy = route_set.normalize
-      copy.routes.map(&:name).uniq.must_equal ['account']
+      copy.routes.map(&:name).must_equal ['account', 'account']
     end
+
+    it "should normalize a route based on a previous route even if the previous route if not adjacent to the current route" do
+      route_set = RouteSet.new(
+        :routes => [
+          Route.new(:name => 'account', :http_verb => 'POST', :url_pattern => '/account(.:format)'),
+          Route.new(:name => 'new_account', :http_verb => 'GET', :url_pattern => '/account/new(.:format)'),
+          Route.new(:name => '', :http_verb => 'GET', :url_pattern => '/account(.:format)')
+        ]
+      )
+
+      copy = route_set.normalize
+      copy.routes.map(&:name).sort.must_equal ['account', 'account', 'new_account']
+    end
+
+
 
     it "should sort the routes" do
       route_set = RouteSet.new(

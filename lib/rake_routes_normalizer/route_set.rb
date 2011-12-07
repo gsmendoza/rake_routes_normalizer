@@ -10,7 +10,8 @@ module RakeRoutesNormalizer
 
     def normalize
       result = routes.inject(RouteSet.new) do|route_set, route|
-        route_set.routes << route.normalize(:previous_route => route_set.routes.last)
+        previous_route = route_set.routes.detect{|r| route.url_pattern == r.url_pattern }
+        route_set.routes << route.normalize(:previous_route => previous_route)
         route_set
       end
       result.routes.sort!
