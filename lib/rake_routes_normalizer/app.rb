@@ -1,6 +1,6 @@
 module RakeRoutesNormalizer
   class App < Thor
-    desc "normalize [TEXT]", "Print the normalized version of text"
+    desc "RAKE_PRINTOUT_FILE", "Print the normalized version of RAKE_PRINTOUT_FILE"
     def normalize(text)
       table = RouteSet.parse(text).normalize.routes.map do |route|
         [route.name, route.http_verb, route.url_pattern, route.params.inspect]

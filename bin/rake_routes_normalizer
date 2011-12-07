@@ -2,10 +2,16 @@
 
 require 'rake_routes_normalizer'
 
-if $stdin.tty?
-  # e.g. rake_routes_normalizer
-  RakeRoutesNormalizer::App.start
+case ARGV.length
+when 0
+  if $stdin.tty?
+    # e.g. rake_routes_normalizer
+    RakeRoutesNormalizer::App.start # display the help
+  else
+    # rake routes | rake_routes_normalizer
+    RakeRoutesNormalizer::App.new.normalize(ARGF.read)
+  end
 else
-  # e.g. rake routes | rake_routes_normalizer
-  RakeRoutesNormalizer::App.new.normalize($stdin.read)
+  # e.g. rake_routes_normalizer rake_routes_printout.txt
+  RakeRoutesNormalizer::App.new.normalize(ARGF.read)
 end
